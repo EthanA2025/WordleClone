@@ -27,14 +27,14 @@ def printWelcome():
 Prompts the user to enter a guess for the word
 '''
 def enter_guess(guess, secret_word):
-    result = -1
+    correct = False
     if (guess == secret_word):
         print("This is the correct word!")
-        print(f"\u001b[33m{secret_word}\u001b[0m")
-        return result
+        print(f"\u001b[32m{secret_word}\u001b[0m")
+        correct = True
+        return correct
     else:
-        result = 0
-        return result
+        return correct
     
     # stops game loop and the user wins if guess and secret are equal.
     
@@ -46,15 +46,17 @@ def enter_guess(guess, secret_word):
     #     else:
     #         print("not in word")
 
-    # return result
+    # return correct
 
 def main():
     tries = 6 # the user has 6 tries to get the word correct
+    correct = False
+
     printWelcome()
-    secret = choose_secret("Main/words/words.txt")
-    while (tries > 1):
-        # guess = input("enter guess: ")
-        # enter_guess(guess, secret)
+    secret = choose_secret("words/words.txt")
+    while (tries > 1 and correct == False):
+        guess = input("enter guess: ")
+        correct = enter_guess(guess, secret)
         tries -= 1
     
 main()
