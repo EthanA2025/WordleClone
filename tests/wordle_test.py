@@ -1,4 +1,4 @@
-from wordle import *
+from src.wordle import choose_secret, enter_guess
 import random
 
 def test_get_secret_redly():
