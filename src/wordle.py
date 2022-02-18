@@ -2,17 +2,23 @@
 @Author Ethan Abbate
 A game that is a clone of the popular website 'wordle'
 '''
+from ctypes.wintypes import WORD
 import random
 
-'''
-Chooses a random secret word from a csv file
-'''
+WORD_BANK = dict()
 
+'''
+Fills in the WORD_BANK dictionary and selects a random word from it
+'''
 def choose_secret(filename):
 
     with open(filename) as file:
-        word_bank = file.read().strip().split()
-    secret_word = random.choice(word_bank)
+        i = 0
+        for line in file:
+            line = line.strip()
+            WORD_BANK[i] = line
+            i += 1
+    secret_word = random.choice(WORD_BANK)
     
     return secret_word
 '''
@@ -28,10 +34,8 @@ def printWelcome():
 '''
 checks for a valid word.
 '''
-def check_valid(filename, guessed_word):
-    with open(filename) as file:
-        word_bank = file.read().strip().split()
-    if guessed_word not in word_bank:
+def check_valid(guessed_word):
+    if guessed_word not in WORD_BANK:
         return False
     return True
 
@@ -80,5 +84,6 @@ def game():
 
 def main():
     game()
-    
-main()
+
+if __name__ == "__main__":
+    main()
