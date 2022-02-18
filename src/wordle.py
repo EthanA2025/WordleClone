@@ -47,27 +47,23 @@ checks the guess that the user has entered.
 def check_guess(guess, secret_word, contrast):
     guess = guess.lower()
     correct = False
-    valid = check_valid(guess)
-    if not valid:
-        print("invalid word!")
-        return 0 # return 0 if invalid
-    if valid and guess == secret_word:
+    if guess == secret_word:
         print("This is the correct word!")
         print(f"\u001b[32m{secret_word}\u001b[0m")
-        correct = True
+        correct = 1
         return correct # stops game loop and the user wins if guess and secret are equal.
     else:
         word = ""
         for i in range(0, len(guess)):
             if guess[i] == secret_word[i]:
                 if contrast:
-                    color_correct = "\u001b[31m" + guess[i] + "\u001b[0m" # change to red/green if right spot right letter
+                    color_correct = "\u001b[31m" + guess[i] + "\u001b[0m" # change to orange/green if right spot right letter
                 else:
                     color_correct = "\u001b[32m" + guess[i] + "\u001b[0m"
                 word += color_correct 
             elif guess[i] in secret_word:
                 if contrast:
-                    in_word_color = "\u001b[34m" + guess[i] + "\u001b[0m" # change to yellow/blue if right spot wrong letter
+                    in_word_color = "\u001b[34m" + guess[i] + "\u001b[0m" # change to blue/yellow if right spot wrong letter
                 else:
                     in_word_color = "\u001b[33m" + guess[i] + "\u001b[0m"
                 word += in_word_color
@@ -80,18 +76,18 @@ def check_guess(guess, secret_word, contrast):
 def game():
     tries = 6 # the user has 6 tries to get the word correct
     correct = False
-    invalid = 0 
 
     contrast = printWelcome()
     secret = choose_secret("words/words.txt")
     # print(secret)
     while tries > 0 and correct == False:
         guess = input("\nenter guess: ")
-        correct = check_guess(guess, secret, contrast)
-        if correct is invalid:
-            tries += 1
-        tries -= 1
-        correct = False
+        valid = check_valid(guess)
+        if valid:   
+            correct = check_guess(guess, secret, contrast)
+            tries -= 1
+        else:
+            print("invalid guess! ")
     print("the word was: " + secret)
 
 def main():
