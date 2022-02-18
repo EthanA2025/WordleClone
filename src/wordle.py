@@ -45,7 +45,7 @@ Prompts the user to enter a guess for the word
 def enter_guess(guess, secret_word):
     guess = guess.lower()
     correct = False
-    valid = check_valid("words/words.txt", guess)
+    valid = check_valid("WordleClone/words/words.txt", guess)
     if len(guess) > 5 or not valid:
         print("invalid word!")
         return correct
@@ -74,7 +74,7 @@ def game():
     correct = False
 
     printWelcome()
-    secret = choose_secret("words/words.txt")
+    secret = choose_secret("WordleClone/words/words.txt")
     # print(secret)
     while tries > 1 and correct == False:
         guess = input("\nenter guess: ")
