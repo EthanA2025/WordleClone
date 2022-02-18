@@ -2,10 +2,8 @@
 @Author Ethan Abbate
 A game that is a clone of the popular website 'wordle'
 '''
-from ctypes.wintypes import WORD
 import random
-
-WORD_BANK = dict()
+WORD_BANK = dict() # global dictionary for all the words
 
 '''
 Fills in the WORD_BANK dictionary and selects a random word from it
@@ -32,24 +30,24 @@ def printWelcome():
     print(['_', '_', '_', '_', '_'])
 
 '''
-checks for a valid word.
+checks for a valid word. A valid word is not greater than 5 letters and in the WORD_BANK
 '''
 def check_valid(guessed_word):
-    if guessed_word not in WORD_BANK:
-        return False
-    return True
+    if guessed_word in WORD_BANK.values():
+        return True
+    return False
 
 '''
-Prompts the user to enter a guess for the word
+checks the guess that the user has entered.
 '''
-def enter_guess(guess, secret_word):
+def check_guess(guess, secret_word):
     guess = guess.lower()
     correct = False
-    valid = check_valid("WordleClone/words/words.txt", guess)
-    if len(guess) > 5 or not valid:
+    valid = check_valid(guess)
+    if not valid:
         print("invalid word!")
-        return correct
-    if guess == secret_word:
+        return 0 # return 0 if invalid
+    if valid and guess == secret_word:
         print("This is the correct word!")
         print(f"\u001b[32m{secret_word}\u001b[0m")
         correct = True
@@ -74,12 +72,15 @@ def game():
     correct = False
 
     printWelcome()
-    secret = choose_secret("WordleClone/words/words.txt")
+    secret = choose_secret("words/words.txt")
     # print(secret)
-    while tries > 1 and correct == False:
+    while tries > 0 and correct == False:
         guess = input("\nenter guess: ")
-        correct = enter_guess(guess, secret)
+        correct = check_guess(guess, secret)
+        if correct is 0:
+            tries += 1
         tries -= 1
+        correct = False
     print("the word was: " + secret)
 
 def main():
